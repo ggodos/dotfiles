@@ -263,7 +263,7 @@ endif
 " doom-one
 " ayu
 " set background=dark
-" colorscheme onedarker
+colorscheme onedarker
 
 " TELESCOPE
 nnoremap <silent><C-P> :Telescope find_files<cr>
