@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+PATH="${HOME}/scripts:$PATH"
+PATH="${HOME}/tools:$PATH"
+PATH="${HOME}/.config/dmscripts/scripts:$PATH"
+j4-dmenu-desktop --dmenu="(cat ; (stest -flx $(echo $PATH | tr : ' ') | sort -u)) | dmenu -p \"Run: \""

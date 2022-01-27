@@ -1,0 +1,52 @@
+#!/usr/bin/python3
+import string
+from argparse import ArgumentParser
+from random import choices
+
+
+punctuation = '.!?-+*=_/\\|$#;<>[](){}'
+
+
+def parser_create() -> ArgumentParser:
+    parser = ArgumentParser(description='Generate password',
+                            prog='Password generator',
+                            )
+    parser.add_argument('-l', '--length', dest='length',
+                        nargs='?', type=int, default=16,
+                        help='Specify password length')
+    parser.add_argument('-u', '--uppercase', dest='upper',
+                        action='store_true',
+                        help='Add uppercase to alphabet')
+    parser.add_argument('-d', '--digits', dest='digits',
+                        action='store_true',
+                        help='Add digits to alphabet')
+    parser.add_argument('-p', '--punctuation', dest='punctuation',
+                        action='store_true',
+                        help='Specify punctuation characters: ' +
+                        punctuation)
+    return parser
+
+
+def generate_alphabet(settings: dict) -> str:
+    alph = string.ascii_lowercase
+    if settings.upper:
+        alph += string.ascii_uppercase
+    if settings.digits:
+        alph += string.digits
+    if settings.punctuation:
+        alph += punctuation
+    return alph
+
+
+def generate_password():
+    parser = parser_create()
+    args = parser.parse_args()
+
+    alph = generate_alphabet(args)
+    password = choices(alph, k=args.length)
+    return ''.join(password)
+
+
+if __name__ == '__main__':
+    paswd = generate_password()
+    print(paswd)
