@@ -1,0 +1,9 @@
+{
+	"prikol": {
+		"prefix": "prik",
+		"body": [
+			"print(\"PRIKOL\")"
+		],
+		"description": "testing snippets"
+	}
+}

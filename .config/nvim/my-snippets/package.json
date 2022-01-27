@@ -1,0 +1,52 @@
+{
+	"name": "friendly-snippets",
+	"engines": {
+		"vscode": "^1.11.0"
+	},
+	"contributes": {
+		"snippets": [
+			{
+				"language": [
+					"plaintext",
+					"markdown",
+					"tex",
+					"html",
+					"global"
+				],
+				"path": "./snippets/global.json"
+			},
+			{
+				"language": "c",
+				"path": "./snippets/c.json"
+			},
+			{
+				"language": "cpp",
+				"path": "./snippets/cpp.json"
+			},
+			{
+				"language": [
+					"csharp",
+					"cs"
+				],
+				"path": "./snippets/csharp.json"
+			},
+			{
+				"language": [
+					"python"
+				],
+				"path": "./snippets/python.json"
+			},
+			{
+				"language": [
+					"plaintex",
+					"tex"
+				],
+				"path": "./snippets/latex/latex-snippets.json"
+			},
+			{
+				"language": "gdscript",
+				"path": "./snippets/gdscript.json"
+			}
+		]
+	}
+}
