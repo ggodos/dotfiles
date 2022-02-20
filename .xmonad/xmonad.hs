@@ -19,10 +19,11 @@ import qualified XMonad.Actions.Search as S
 
     -- Data
 import Data.Char (isSpace, toUpper)
-import Data.Maybe (fromJust, isJust)
+import Data.Maybe (fromJust)
 import Data.Monoid
 import Data.Tree
 import Data.Ratio ((%))
+import Data.Maybe (isJust)
 import qualified Data.Map as M
 
     -- Hooks
@@ -71,26 +72,34 @@ import XMonad.Util.SpawnOnce
 import Colors.DoomOne
 
 -- VARIABLES
-myFont :: String
-myModMask :: KeyMask
-myTerminal :: String
-myBrowser :: String
-myEditor :: String
-myBorderWidth :: Dimension
-myNormColor :: String
-myFocusColor :: String
-myScripts :: String
 
+myModMask :: KeyMask
 myModMask = mod4Mask        -- Sets modkey to super/windows key
+
+myFont :: String
 myFont = "xft:Ubuntu Mono:size=16:antialias=true:hinting=true"
+
 myTerminal = "alacritty"
+myTerminal :: String
+
 myBrowser = "brave-browser"
+myBrowser :: String
+
 myEditor = "nvim"
+myEditor :: String
+
 myBorderWidth = 2
+myBorderWidth :: Dimension
+
 myNormColor = "#282c34"
-myFocusColor = "#bd9cf9" -- purple
---myFocusColor = "#46d9ff" -- light blue
-myScripts = "/home/maxim/scripts" 
+myNormColor :: String
+
+myFocusColor :: String
+{- myFocusColor = "#bd9cf9" -- purple -}
+myFocusColor = "#46d9ff" -- light blue
+
+myScripts :: String
+myScripts = "/home/maxim/scripts"
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
@@ -113,8 +122,8 @@ myKeys =
         , ("M-<Space>", spawn "/home/maxim/scripts/ch_key_layout")-- Change keyboard layout
 
     -- KB_GROUP Run Prompt
-      --, ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
-        , ("M-S-<Return>", spawn "/home/maxim/scripts/j4-dm") -- Dmenu
+        , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
+        {- , ("M-S-<Return>", spawn "/home/maxim/scripts/j4-dm") -- Dmenu -}
 
 
     -- KB_GROUP Screenshots
@@ -209,9 +218,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
                myDefaultLayout =     withBorder myBorderWidth tall
-                                 ||| magnify
-                                 ||| wideAccordion
-
+                                 ||| tabs
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 myWorkspaces = [" dev ", " www ", " gfx ", " float ", " doc ", " chat ", " mus ", " vid ", " edu "]
 myWorkspaceIndices = M.fromList $ zip myWorkspaces [1..] -- (,) == \x y -> (x,y)
@@ -251,66 +258,66 @@ tall     = renamed [Replace "tall"]
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
-           $ mySpacing 8
+           {- $ mySpacing 8 -}
            $ ResizableTall 1 (3/100) (1/2) []
-magnify  = renamed [Replace "magnify"]
-           $ smartBorders
-           $ windowNavigation
-           $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
-           $ magnifier
-           $ limitWindows 12
-           $ mySpacing 8
-           $ ResizableTall 1 (3/100) (1/2) []
---monocle  = renamed [Replace "monocle"]
---           $ smartBorders
---           $ windowNavigation
---           $ addTabs shrinkText myTabTheme
---           $ subLayout [] (smartBorders Simplest)
---           $ limitWindows 20 Full
+{- magnify  = renamed [Replace "magnify"]
+ -            $ smartBorders
+ -            $ windowNavigation
+ -            $ addTabs shrinkText myTabTheme
+ -            $ subLayout [] (smartBorders Simplest)
+ -            $ magnifier
+ -            $ limitWindows 12
+ -            $ mySpacing 8
+ -            $ ResizableTall 1 (3/100) (1/2) [] -}
+{- monocle  = renamed [Replace "monocle"]
+ -           $ smartBorders
+ -           $ windowNavigation
+ -           $ addTabs shrinkText myTabTheme
+ -           $ subLayout [] (smartBorders Simplest)
+ -           $ limitWindows 20 Full -}
 floats   = renamed [Replace "floats"]
            $ smartBorders
            $ limitWindows 20 simplestFloat
---grid     = renamed [Replace "grid"]
---           $ smartBorders
---           $ windowNavigation
---           $ addTabs shrinkText myTabTheme
---           $ subLayout [] (smartBorders Simplest)
---           $ limitWindows 12
---           $ mySpacing 8
---           $ mkToggle (single MIRROR)
---           $ Grid (16/10)
---spirals  = renamed [Replace "spirals"]
---           $ smartBorders
---           $ windowNavigation
---           $ addTabs shrinkText myTabTheme
---           $ subLayout [] (smartBorders Simplest)
---           $ mySpacing' 8
---           $ spiral (6/7)
---threeCol = renamed [Replace "threeCol"]
---           $ smartBorders
---           $ windowNavigation
---           $ addTabs shrinkText myTabTheme
---           $ subLayout [] (smartBorders Simplest)
---           $ limitWindows 7
---           $ ThreeCol 1 (3/100) (1/2)
---threeRow = renamed [Replace "threeRow"]
---           $ smartBorders
---           $ windowNavigation
---           $ addTabs shrinkText myTabTheme
---           $ subLayout [] (smartBorders Simplest)
---           $ limitWindows 7
---           -- Mirror takes a layout and rotates it by 90 degrees.
---           -- So we are applying Mirror to the ThreeCol layout.
---           $ Mirror
---           $ ThreeCol 1 (3/100) (1/2)
---tabs     = renamed [Replace "tabs"]
---           -- I cannot add spacing to this layout because it will
---           -- add spacing between window and tabs which looks bad.
---           $ tabbed shrinkText myTabTheme
-tallAccordion  = renamed [Replace "tallAccordion"] Accordion
-wideAccordion  = renamed [Replace "wideAccordion"]
-           $ Mirror Accordion
+{- grid     = renamed [Replace "grid"]
+ -           $ smartBorders
+ -           $ windowNavigation
+ -           $ addTabs shrinkText myTabTheme
+ -           $ subLayout [] (smartBorders Simplest)
+ -           $ limitWindows 12
+ -           $ mySpacing 8
+ -           $ mkToggle (single MIRROR)
+ -           $ Grid (16/10)
+ - spirals  = renamed [Replace "spirals"]
+ -           $ smartBorders
+ -           $ windowNavigation
+ -           $ addTabs shrinkText myTabTheme
+ -           $ subLayout [] (smartBorders Simplest)
+ -           $ mySpacing' 8
+ -           $ spiral (6/7)
+ {- - threeCol = renamed [Replace "threeCol"]
+  - -           $ smartBorders
+  - -           $ windowNavigation
+  - -           $ addTabs shrinkText myTabTheme
+  - -           $ subLayout [] (smartBorders Simplest)
+  - -           $ limitWindows 7
+  - -           $ ThreeCol 1 (3/100) (1/2)
+  - - threeRow = renamed [Replace "threeRow"]
+  - -           $ smartBorders
+  - -           $ windowNavigation
+  - -           $ addTabs shrinkText myTabTheme
+  - -           $ subLayout [] (smartBorders Simplest)
+  - -           $ limitWindows 7 -}
+ -           -- Mirror takes a layout and rotates it by 90 degrees.
+ -           -- So we are applying Mirror to the ThreeCol layout.
+ -           $ Mirror
+ -           $ ThreeCol 1 (3/100) (1/2) -}
+tabs     = renamed [Replace "tabs"]
+          -- I cannot add spacing to this layout because it will
+          -- add spacing between window and tabs which looks bad.
+          $ tabbed shrinkText myTabTheme
+{- tallAccordion  = renamed [Replace "tallAccordion"] Accordion
+ - wideAccordion  = renamed [Replace "wideAccordion"]
+ -            $ Mirror Accordion -}
 
 myTabTheme = def { fontName            = myFont
                  , activeColor         = color15
