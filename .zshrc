@@ -40,8 +40,8 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 #PATHES
 . "$HOME/.cargo/env"
-
 PATH="/usr/local/go/bin:$PATH"
+PATH="/home/maxim/go/bin:$PATH"
 PATH="${HOME}/.cargo/bin:$PATH"
 PATH="/opt/ltex-ls-15.1.0/bin:$PATH"
 PATH="${HOME}/scripts:$PATH"
@@ -49,9 +49,11 @@ PATH="${HOME}/tools:$PATH"
 PATH="${HOME}/.config/dmscripts/scripts:$PATH"
 PATH="${HOME}/Qt/Tools/QtCreator/bin:$PATH"
 PATH="${HOME}/Qt/Tools/QtDesignStudio/bin:$PATH"
+PATH="/opt/mssql/bin/:$PATH"
+export PATH="$PATH:/opt/mssql-tools/bin"
 
 config_dirs+=(
-"${HOME}/.config/dmscripts/config"
+	"${HOME}/.config/dmscripts/config"
 )
 
 #aliases
@@ -60,6 +62,7 @@ alias vim='nvim'
 alias copy='xargs echo -n | xclip -selection clipboard'
 alias lf='lfrun'
 alias fsw='file_switch'
+alias duh='du --max-depth=1 -h'
 
 # python environment
 alias penv='python_virtualenv -p 3.10 -e venv 1>/dev/null \
