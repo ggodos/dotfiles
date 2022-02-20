@@ -1,0 +1,15 @@
+{
+	"snippetTemplate": {
+		"prefix": "snipboil",
+		"body": [
+		"\"${1:NAME}\": {",
+		"    \"prefix\": \"pref\",",
+		"    \"body\": [",
+		"         ",
+		"     ],",
+		"     \"description\": \"desc\"",
+		"}"
+		],
+		"description": "Template of snippet"
+	}
+}

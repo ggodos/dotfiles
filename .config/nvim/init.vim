@@ -1,10 +1,16 @@
-" Run PlugInstall if there are missing plugins
+"i Run PlugInstall if there are missing plugins
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
 \| endif
 autocmd BufWritePost source %
 " PLUGINS
 call plug#begin(stdpath('config').'/plugged')
+
+
+	Plug 'caenrique/nvim-toggle-terminal'
+	Plug 'junegunn/vim-easy-align'
+	Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+
   " CMP
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-cmdline'
@@ -17,7 +23,7 @@ call plug#begin(stdpath('config').'/plugged')
   Plug 'neovim/nvim-lspconfig'
   Plug 'williamboman/nvim-lsp-installer'
   Plug 'nvim-lualine/lualine.nvim'
-  Plug 'L3MON4D3/LuaSnip'
+	Plug 'L3MON4D3/LuaSnip'
 	Plug 'saadparwaiz1/cmp_luasnip'
 	Plug 'rafamadriz/friendly-snippets'
 
@@ -25,13 +31,12 @@ call plug#begin(stdpath('config').'/plugged')
 	Plug 'ray-x/lsp_signature.nvim'
 
   " COLORS
+	Plug 'ulwlu/abyss.vim'
   Plug 'morhetz/gruvbox'
   Plug 'kaicataldo/material.vim'
   Plug 'ayu-theme/ayu-vim'
-  Plug 'lunarvim/darkplus.nvim'
+	Plug 'rakr/vim-one'
 	Plug 'NTBBloodbath/doom-one.nvim'
-  Plug 'mhartington/oceanic-next'
-  Plug 'navarasu/onedark.nvim'
 	Plug 'real-99/onedarker.nvim'
 
   " BUFFERS
@@ -71,14 +76,24 @@ call plug#begin(stdpath('config').'/plugged')
 
 " Initialize plugin system
 call plug#end()
-
 " KEYBINDINGS
 " leaders
 let g:mapleader = " "
 let g:maplocalleader = ','
 
+nnoremap <silent> <C-z> :ToggleTerminal<Enter>
+tnoremap <silent> <C-z> <C-\><C-n>:ToggleTerminal<Enter>
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+
 let g:airline_powerline_fonts = 1
 
+"set guifont=Ubuntu\ Light:h15
 " TROUBLE trouble
 nnoremap <leader>xx <cmd>TroubleToggle<cr>
 nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
@@ -123,11 +138,23 @@ nnoremap <C-k> <C-W><C-k>
 nnoremap <C-l> <C-W><C-l>
 nnoremap <C-h> <C-W><C-h>
 
+" terminal switch
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+
+
 "split resize arrows
 nnoremap <C-UP> :resize -2<CR>
 nnoremap <C-Down> :resize +2<CR>
 nnoremap <C-Left> :vertical resize -2<CR>
 nnoremap <C-Right> :vertical resize +2<CR>
+
+" codeforces splits
+nnoremap <leader>cfi :split in.txt<CR>
+nnoremap <leader>cfo :vsplit out.txt<CR>
+
 
 "move lines arrows
 nnoremap <A-down> :m .+1<CR>==
@@ -156,10 +183,9 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " show colors
-nnoremap <leader>c :so $VIMRUNTIME/syntax/hitest.vim<return>
+" nnoremap <leader>c :so $VIMRUNTIME/syntax/hitest.vim<return>
 :set wrap
 :set textwidth=0
-:set colorcolumn=80
 
 nnoremap <buffer><localleader>w :set wrap!<cr>
 
@@ -168,8 +194,8 @@ nnoremap <leader>W :w !diff % -<cr>
 nnoremap <leader>w :w<cr>
 
 " buffer settings
-nnoremap <s-tab> :bp<return>
 nnoremap <tab> :bn<return>
+nnoremap <s-tab> :bp<return>
 nnoremap <silent><leader>d :bp\|bd #\|BarbarEnable<return>
 
 " VimTeX vimtex
@@ -210,6 +236,8 @@ filetype plugin on
 " set shiftwidth=4
 " set smarttab
 
+" Russian 
+
 " Core settings
 syntax on
 set nu 
@@ -221,7 +249,7 @@ set noshowmode
 set scrolloff=7
 set sidescrolloff=7
 set shortmess+=c
-set encoding=UTF-8
+set encoding=utf-8
 set number relativenumber
 set clipboard+=unnamedplus " public copy/paste register
 set omnifunc=syntaxcomplete#Complete
@@ -259,11 +287,6 @@ endif
 if (has("termguicolors"))
   set termguicolors
 endif
-
-" doom-one
-" ayu
-" set background=dark
-colorscheme onedarker
 
 " TELESCOPE
 nnoremap <silent><C-P> :Telescope find_files<cr>
@@ -319,62 +342,64 @@ highlight SneakScope guifg=black guibg=#49A3ff ctermfg=red ctermbg=yellow gui=it
 
 let g:godot_executable = '/home/maxim/src/godot/godot'
 
-lua << EOF
+lua<<EOF
 -- SETUPS setups
 require('nvim-autopairs').setup{}
 
---completion = {
---	autocomplete = true
---},
 -- CMP, cmp setting
+
+local luasnip = require('luasnip')
+local cmp = require 'cmp'
+
 require("luasnip.loaders.from_vscode").lazy_load({
 	paths = { "./my-snippets" }
 })
 require("luasnip.loaders.from_vscode").lazy_load({})
-local cmp = require 'cmp'
-cmp.setup ({
+
+
+cmp.setup({
 	snippet = {
 		expand = function(args)
-		require('luasnip').lsp_expand(args.body)
+		luasnip.lsp_expand(args.body)
 	end,
 	},
+	 completion = {
+     autocomplete = false, -- disable auto-completion.
+   },
 	mapping = {
-		['<C-p>'] = cmp.mapping.select_prev_item(),
-		['<C-n>'] = cmp.mapping.select_next_item(), ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+		['<C-u>'] = cmp.mapping.scroll_docs(-4),
 		['<C-j>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.close(),
 		['<CR>'] = cmp.mapping.confirm ({
-		behavior = cmp.ConfirmBehavior.Replace,
-		select = true,
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
 		}),
-	['<Tab>'] = function(fallback)
+['<Tab>'] = function(fallback)
 	if cmp and cmp.visible() then
-		vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
-		'<C-n>', true, true, true), 'm')
-	elseif require('luasnip').expand_or_jumpable() then
-		vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
+		cmp.select_next_item()
+	elseif luasnip.expand_or_jumpable() then
+vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
 		'<Plug>luasnip-expand-or-jump', true, true, true), '')
 	else
 		fallback()
 	end
-end,
-['<S-Tab>'] = function(fallback)
-if cmp and cmp.visible() then
-	vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
-	'<C-p>', true, true, true), 'm')
-elseif luasnip.expand_or_jumpable(-1) then
-	vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
+		end,
+		['<S-Tab>'] = function(fallback)
+    if cmp and cmp.visible() then
+        cmp.select_prev_item()
+    elseif luasnip.jumpable(-1) then
+vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
 	'<Plug>luasnip-jump-prev', true, true, true), '')
-else
-	fallback()
-end
-end,
-},
+		else
+			fallback()
+    end
+	end,
+  },
   sources = {
+		{ name = 'luasnip' },
     { name = 'path' },
 		{ name = 'buffer' },
-    { name = 'luasnip' },
     { name = 'nvim' },
     },
   })
@@ -395,9 +420,7 @@ end,
 	})
 })
 
-
 -- LSP, lsp SETTINGS
---local nvim = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -427,7 +450,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>d', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+--buf_set_keymap('n', '<space>d', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   buf_set_keymap('n', '<A-S-f>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
@@ -462,7 +485,6 @@ local enhance_server_opts = {
     }
   end,
 
-  
 }
 
 lsp_installer.on_server_ready(function(server)
@@ -476,21 +498,46 @@ lsp_installer.on_server_ready(function(server)
 end)
 
 
+local servers = {
+	'gdscript'
+	}
+
+for _, lsp in pairs(servers) do
+  require('lspconfig')[lsp].setup {
+    on_attach = on_attach,
+  }
+end
+
 -- TROUBLE trouble
 require("trouble").setup{}
 require("lsp_signature").setup{
-	doc_lines = 10,
+	doc_lines = 1,
 	hint_prefix = "🐼 ",
 	floating_window_above_cur_line = true,
 }
 
+-- set background=dark
+colorschemes = {
+	'doom-one'  ,-- 1
+	'abyss'     ,-- 2
+	'ayu'       ,-- 3
+	'gruvbox'   ,-- 4
+	'one'       ,-- 5
+	'onedarker' ,-- 6
+	'material'  ,-- 7
+	'catppuccin' -- 8
+	}              
+vim.cmd(string.format(
+'colorscheme %s', colorschemes[8]
+))
 EOF
 
 " transparency TRANSPARENCY
-":hi! Normal ctermbg=NONE guibg=NONE
+" :hi! Normal ctermbg=NONE guibg=NONE
 
-"if has('termguicolors') && $TERM_PROGRAM ==# 'iTerm.app'
-"  set t_8f=^[[38;2;%lu;%lu;%lum
-"  set t_8b=^[[48;2;%lu;%lu;%lum
-"  set termguicolors
-"endif
+if has('termguicolors') && $TERM_PROGRAM ==# 'iTerm.app'
+  set t_8f=^[[38;2;%lu;%lu;%lum
+  set t_8b=^[[48;2;%lu;%lu;%lum
+  set termguicolors
+endif
+
