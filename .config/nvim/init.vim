@@ -1,3 +1,4 @@
+
 "i Run PlugInstall if there are missing plugins
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
@@ -5,7 +6,6 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 autocmd BufWritePost source %
 " PLUGINS
 call plug#begin(stdpath('config').'/plugged')
-
 
 	Plug 'caenrique/nvim-toggle-terminal'
 	Plug 'junegunn/vim-easy-align'
@@ -18,6 +18,7 @@ call plug#begin(stdpath('config').'/plugged')
   Plug 'hrsh7th/nvim-cmp'
 	Plug 'RishabhRD/popfix'
 	Plug 'RishabhRD/nvim-lsputils'
+
   " LSP
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'neovim/nvim-lspconfig'
@@ -26,8 +27,6 @@ call plug#begin(stdpath('config').'/plugged')
 	Plug 'L3MON4D3/LuaSnip'
 	Plug 'saadparwaiz1/cmp_luasnip'
 	Plug 'rafamadriz/friendly-snippets'
-
-	" Keep lsp hover while typing
 	Plug 'ray-x/lsp_signature.nvim'
 
   " COLORS
@@ -35,12 +34,12 @@ call plug#begin(stdpath('config').'/plugged')
   Plug 'morhetz/gruvbox'
   Plug 'kaicataldo/material.vim'
   Plug 'ayu-theme/ayu-vim'
-	Plug 'rakr/vim-one'
+	Plug 'rakr/vim-one', {'frozen': 1}
 	Plug 'NTBBloodbath/doom-one.nvim'
 	Plug 'real-99/onedarker.nvim'
 
   " BUFFERS
-  Plug 'romgrk/barbar.nvim'
+  Plug 'romgrk/barbar.nvim', {'frozen': 1}
 
   " LOOKS
   Plug 'glepnir/dashboard-nvim'
@@ -76,6 +75,7 @@ call plug#begin(stdpath('config').'/plugged')
 
 " Initialize plugin system
 call plug#end()
+
 " KEYBINDINGS
 " leaders
 let g:mapleader = " "
@@ -93,7 +93,7 @@ nmap ga <Plug>(EasyAlign)
 
 let g:airline_powerline_fonts = 1
 
-"set guifont=Ubuntu\ Light:h15
+" set guifont=Ubuntu\ Light:h15
 " TROUBLE trouble
 nnoremap <leader>xx <cmd>TroubleToggle<cr>
 nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
@@ -154,7 +154,7 @@ nnoremap <C-Right> :vertical resize +2<CR>
 " codeforces splits
 nnoremap <leader>cfi :split in.txt<CR>
 nnoremap <leader>cfo :vsplit out.txt<CR>
-
+nnoremap <leader>cfr gg/std::ifstream<CR>V7jd4jd2j<CR>?solve()<CR>
 
 "move lines arrows
 nnoremap <A-down> :m .+1<CR>==
@@ -200,11 +200,11 @@ nnoremap <silent><leader>d :bp\|bd #\|BarbarEnable<return>
 
 " VimTeX vimtex
 filetype plugin indent on
-syntax enable
+" syntax enable
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-let g:vimtex_view_general_options_latexmk = '--unique'
+" let g:vimtex_view_general_options_latexmk = '--unique'
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_complete_enabled = 1
 let g:vimtex_complete_auto = 1
@@ -230,11 +230,6 @@ set foldlevel=99
 
 " Code Editor settings
 filetype plugin on
-" set tabstop=4
-" set softtabstop=0
-" set expandtab
-" set shiftwidth=4
-" set smarttab
 
 " Russian 
 
@@ -244,7 +239,9 @@ set nu
 set ruler
 set hidden
 set showcmd
+set autoread
 set noswapfile " doesn't create swap files
+" set bufhidden=hide
 set noshowmode
 set scrolloff=7
 set sidescrolloff=7
@@ -253,9 +250,12 @@ set encoding=utf-8
 set number relativenumber
 set clipboard+=unnamedplus " public copy/paste register
 set omnifunc=syntaxcomplete#Complete
+"set completefunc=%!v:lua.vim.luasnip.completefunc
 
 " set completeopt to have a better completion experience
 set completeopt=menu,menuone,noselect
+" let asynccomplete_auto_completeopt = 0
+" set completeopt=menuone,noinsert,noselect,preview
 
 " Indentation and mouse
 set backspace=indent,eol,start " let backspace delete over lines
@@ -273,7 +273,7 @@ set showmatch "highlights matching brackets
 set incsearch "search as characters are entered
 
 "customm
-"autocmd BufEnter * silent! lcd %:p:h
+" autocmd BufEnter * silent! lcd %:p:h
 
 " RICING
 
@@ -350,7 +350,6 @@ require('nvim-autopairs').setup{}
 
 local luasnip = require('luasnip')
 local cmp = require 'cmp'
-
 require("luasnip.loaders.from_vscode").lazy_load({
 	paths = { "./my-snippets" }
 })
@@ -358,51 +357,51 @@ require("luasnip.loaders.from_vscode").lazy_load({})
 
 
 cmp.setup({
-	snippet = {
-		expand = function(args)
-		luasnip.lsp_expand(args.body)
-	end,
-	},
-	 completion = {
-     autocomplete = false, -- disable auto-completion.
-   },
-	mapping = {
-		['<C-u>'] = cmp.mapping.scroll_docs(-4),
-		['<C-j>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.close(),
-		['<CR>'] = cmp.mapping.confirm ({
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		}),
-['<Tab>'] = function(fallback)
-	if cmp and cmp.visible() then
-		cmp.select_next_item()
-	elseif luasnip.expand_or_jumpable() then
-vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
-		'<Plug>luasnip-expand-or-jump', true, true, true), '')
-	else
-		fallback()
-	end
-		end,
-		['<S-Tab>'] = function(fallback)
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  --completion = {
+  --  autocomplete = false,
+  --},
+  mapping = {
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-j>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm ({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    }),
+		['<Tab>'] = function(fallback)
+      if cmp and cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
+          '<Plug>luasnip-expand-or-jump', true, true, true), 'n')
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
     if cmp and cmp.visible() then
         cmp.select_prev_item()
     elseif luasnip.jumpable(-1) then
 vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
-	'<Plug>luasnip-jump-prev', true, true, true), '')
-		else
-			fallback()
+  '<Plug>luasnip-jump-prev', true, true, true), 'n')
+    else
+      fallback()
     end
-	end,
+  end,
   },
   sources = {
-		{ name = 'luasnip' },
-    { name = 'path' },
-		{ name = 'buffer' },
     { name = 'nvim' },
+    { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'buffer'},
     },
-  })
+})
 
   -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline('/', {
@@ -414,11 +413,12 @@ vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline(':', {
     sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-	})
+		{ name = 'path' }
+		}, {
+			{ name = 'cmdline' }
+		})
 })
+
 
 -- LSP, lsp SETTINGS
 
@@ -429,17 +429,18 @@ local on_attach = function(client, bufnr)
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- buf_set_option('omnifunc', 'v:lua.vim.luasnip.completefunc')
+
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
-
-	require "lsp_signature".on_attach({
-		bind = true, -- This is mandatory, otherwise border config won't get registered.
-		handler_opts = {
-			border = "rounded"
-		}
-	}, bufnr)
+  require "lsp_signature".on_attach({
+          bind = true, -- This is mandatory, otherwise border config won't get registered.
+          handler_opts = {
+                  border = "rounded"
+          }
+  }, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -448,7 +449,8 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+--buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>Telescope lsp_code_actions<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 --buf_set_keymap('n', '<space>d', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   buf_set_keymap('n', '<A-S-f>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
@@ -465,6 +467,7 @@ ui = {
     }
   }
 })
+
 
 local enhance_server_opts = {
   -- Provide settings that should only apply to the "eslintls" server
@@ -484,12 +487,13 @@ local enhance_server_opts = {
 			lint = true
     }
   end,
-
 }
+
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 lsp_installer.on_server_ready(function(server)
     local opts = {
-        on_attach = on_attach
+        on_attach = on_attach,
         }
   if enhance_server_opts[server.name] then
       enhance_server_opts[server.name](opts)
@@ -499,7 +503,7 @@ end)
 
 
 local servers = {
-	'gdscript'
+	'gdscript',
 	}
 
 for _, lsp in pairs(servers) do
@@ -511,12 +515,10 @@ end
 -- TROUBLE trouble
 require("trouble").setup{}
 require("lsp_signature").setup{
-	doc_lines = 1,
-	hint_prefix = "🐼 ",
-	floating_window_above_cur_line = true,
-}
-
--- set background=dark
+       doc_lines = 1,
+       hint_prefix = "🐼 ",
+       floating_window_above_cur_line = true,
+			}
 colorschemes = {
 	'doom-one'  ,-- 1
 	'abyss'     ,-- 2
@@ -528,7 +530,7 @@ colorschemes = {
 	'catppuccin' -- 8
 	}              
 vim.cmd(string.format(
-'colorscheme %s', colorschemes[8]
+'colorscheme %s', colorschemes[7]
 ))
 EOF
 

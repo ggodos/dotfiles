@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+folders=$(ls -d */)
+
+echo $folders > folders.txt
+rm remotes.txt 2>/dev/null
+for folder in ${folders[@]}; do
+    cd $folder &&
+    git remote -v >> ../remotes.txt &&
+    cd ..;
+done
