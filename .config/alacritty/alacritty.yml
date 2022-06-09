@@ -18,27 +18,27 @@ window:
   # Specified in number of columns/lines, not pixels.
   # If both are `0`, this setting is ignored.
   #dimensions:
-  #  columns: 0
-  #  lines: 0
+  columns: 0
+  lines: 0
 
   # Window position (changes require restart)
   #
   # Specified in number of pixels.
   # If the position is not set, the window manager will handle the placement.
   #position:
-  #  x: 0
-  #  y: 0
+  x: 0
+  y: 0
 
   # Window padding (changes require restart)
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 6
-    y: 6
+    x: 0
+    y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -60,10 +60,10 @@ window:
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  #startup_mode: Windowed
+  startup_mode: Fullscreen
 
   # Window title
-  title: Alacritty
+  title: Alacritty 😎
 
   # Window class (Linux/BSD only):
   class:
@@ -109,11 +109,11 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Source Code Pro
+    # family: Source Code Pro
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
-    # family: JetBrains Mono
+    family: JetBrains Mono
     # family: UbuntuMono Nerd Font family: Monofur Nerd Font
     # family: TerminessTTF Nerd Font
     #family: Mononoki Nerd Font
@@ -128,11 +128,11 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     # family: MesloLGS NF
-    family: Source Code Pro
+    # family: Source Code Pro
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
-    # family: JetBrains Mono
+    family: JetBrains Mono
     # family: UbuntuMono Nerd Font
     # family: Monofur Nerd Font
     # family: TerminessTTF Nerd Font
@@ -148,11 +148,11 @@ font:
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
     # family: MesloLGS NF
-    family: Source Code Pro
+    # family: Source Code Pro
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
-    # family: JetBrains Mono
+    family: JetBrains Mono
     # family: UbuntuMono Nerd Font
     # family: Monofuritalic Nerd Font Mono
     # family: TerminessTTF Nerd Font
@@ -168,11 +168,11 @@ font:
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
     # family: MesloLGS NF
-    family: Source Code Pro
+    # family: Source Code Pro
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
-    # family: JetBrains Mono
+    family: JetBrains Mono
     # family: UbuntuMono Nerd Font
     # family: Monofuritalic Nerd Font Mono
     # family: TerminessTTF Nerd Font
@@ -182,7 +182,7 @@ font:
     style: Bold Italic
 
   # Point size
-  size: 12.0
+  size: 11.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -574,7 +574,7 @@ schemes:
 #   *solarized-dark
 #   *tomorrow-night
 
-colors: *doom-one
+colors: *gruvbox-dark
 
 #######################################
 ##       END OF COLOR SCHEMES        ##
@@ -602,9 +602,9 @@ colors: *doom-one
 #
 # Specifying a `duration` of `0` will disable the visual bell.
 #visual_bell:
-#  animation: EaseOutExpo
-#  duration: 0
-#  color: '#ffffff'
+# animation: EaseOutExpo
+# duration: 1000
+# color: '#000000'
 
 # Background opacity
 #
@@ -612,18 +612,18 @@ colors: *doom-one
 # The value `0.0` is completely transparent and `1.0` is opaque.
 # background_opacity: .900
 window:
-  opacity: 1
+  opacity: 0.83
 
-#selection:
-  #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+# selection:
+  # semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
-  #save_to_clipboard: false
+  # save_to_clipboard: false
 
 # Allow terminal applications to change Alacritty's window title.
-#dynamic_title: true
+# dynamic_title: true
 
-#cursor:
+cursor:
   # Cursor style
   #
   # Values for `style`:
@@ -634,7 +634,7 @@ window:
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
-  #unfocused_hollow: true
+  unfocused_hollow: true
 
 # Live config reload (changes require restart)
 #live_config_reload: true

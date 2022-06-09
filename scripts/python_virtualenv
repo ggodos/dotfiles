@@ -7,20 +7,36 @@ from os.path import exists
 
 
 def parser_create() -> ArgumentParser:
-    parser = ArgumentParser(description='Run python virtualenv environment',
-                            prog='Virtual Environment Runner',
-                            formatter_class=RawTextHelpFormatter,
-                            epilog=textwrap.dedent('''\
+    parser = ArgumentParser(
+        description="Run python virtualenv environment",
+        prog="Virtual Environment Runner",
+        formatter_class=RawTextHelpFormatter,
+        epilog=textwrap.dedent(
+            """\
                     Dependencies:
                       virtualenv - version 20+
-                '''))
-    parser.add_argument('-p', '--python', dest='python',
-                        nargs='?', type=str, default='3.10',
-                        help='Specify python version')
+                """
+        ),
+    )
+    parser.add_argument(
+        "-p",
+        "--python",
+        dest="python",
+        nargs="?",
+        type=str,
+        default="3.8",
+        help="Specify python version",
+    )
 
-    parser.add_argument('-e', '--envname', dest='envname',
-                        nargs='?', type=str, default='venv',
-                        help='Specify environment name')
+    parser.add_argument(
+        "-e",
+        "--envname",
+        dest="envname",
+        nargs="?",
+        type=str,
+        default="venv",
+        help="Specify environment name",
+    )
     return parser
 
 

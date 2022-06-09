@@ -1,6 +1,6 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="norm"
+ZSH_THEME="robbyrussell"
 HYPHEN_INSENSITIVE="true"
 zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -39,7 +39,6 @@ EDITOR=nvim
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 #PATHES
-. "$HOME/.cargo/env"
 PATH="/usr/local/go/bin:$PATH"
 PATH="/home/maxim/go/bin:$PATH"
 PATH="${HOME}/.cargo/bin:$PATH"
@@ -50,7 +49,11 @@ PATH="${HOME}/.config/dmscripts/scripts:$PATH"
 PATH="${HOME}/Qt/Tools/QtCreator/bin:$PATH"
 PATH="${HOME}/Qt/Tools/QtDesignStudio/bin:$PATH"
 PATH="/opt/mssql/bin/:$PATH"
+PATH="/opt/jdk-17.0.3+7/bin:$PATH"
+PATH="/opt/ghidra_10.1.3_PUBLIC:$PATH"
 export PATH="$PATH:/opt/mssql-tools/bin"
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/maxim/Qt/Tools/QtCreator/lib
+source "$HOME/.cargo/env"
 
 config_dirs+=(
 	"${HOME}/.config/dmscripts/config"
@@ -63,35 +66,25 @@ alias copy='xargs echo -n | xclip -selection clipboard'
 alias lf='lfrun'
 alias fsw='file_switch'
 alias duh='du --max-depth=1 -h'
+alias xmor='xmonad --recompile && xmonad --restart'
+alias bd='bindechexascii'
+alias gef='gdb-gef'
+alias pwndbg='gdb-pwndbg'
+alias h='function hdi(){ howdoi $* -c; }; hdi'
+alias hless='function hdi(){ howdoi $* -c | less --raw-control-chars --quit-if-one-screen --no-init; }; hdi'
+alias coconf='vim /home/maxim/.config/nvim/coc-settings.json'
 
 # python environment
-alias penv='python_virtualenv -p 3.10 -e venv 1>/dev/null \
+alias penv='python_virtualenv -p 3.8 -e venv 1>/dev/null \
     && source ./venv/bin/activate '
 alias deact='deactivate'
-
-# git
-alias addup='git add -u'
-alias addall='git add .'
-#alias branch='git branch'
-alias checkout='git checkout'
-alias clone='git clone'
-alias commit='git commit -m'
-alias fetch='git fetch'
-alias pull='git pull origin'
-alias push='git push origin'
-alias stat='git status'  # 'status' is protected name so using 'stat' instead
-alias tag='git tag'
-alias newtag='git tag -a'
-
-
 
 # folders
 alias proj="cd ~/dev/proj/"
 alias nvimconf="cd ~/.config/nvim"
-alias sem1="cd ~/learn/sem1"
-alias sem2="cd ~/learn/sem2"
-alias sem3="cd ~/learn/sem3"
 alias sem4="cd ~/learn/sem4"
+alias wgame="cd ~/.wine/drive_c/Games"
+alias toosu="cd /home/maxim/.local/share/osu-wine/OSU"
 
 # configurate
 alias nviminit="vim ~/.config/nvim/init.vim"
@@ -101,10 +94,10 @@ alias config='/usr/bin/git --git-dir=/home/maxim/dotfiles/ --work-tree=/home/max
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='exa -al --color=always --group-directories-first $* --icons'
-    alias la='exa -a --color=always --group-directories-first $*  --icons' 
-    alias ll='exa -l --color=always --group-directories-first $*  --icons' 
-    alias lt='exa -aT --color=always --group-directories-first $* --icons'
+    alias ls='exa -al --color=always --group-directories-first $*'
+    alias la='exa -a --color=always --group-directories-first $* ' 
+    alias ll='exa -l --color=always --group-directories-first $* ' 
+    alias lt='exa -aT --color=always --group-directories-first $*'
     alias l.='exa -a1 $* | grep "^\."'                            
 
     alias grep='grep --color=auto'
