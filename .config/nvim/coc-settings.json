@@ -1,0 +1,52 @@
+{
+  "markdownlint.config": {
+    "hr-style": true
+  },
+  "python.pythonPath": "python3",
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "/home/maxim/.local/bin/black",
+  "python.sortImports.path": "isort",
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.formatting.blackArgs": ["-l", "79"],
+  "calc.replaceOriginalExpression": false,
+  "translator.toLang": "ru",
+  "translator.engines": ["google", "bing", "deepl"],
+  "snippets.loadVSCodeProjectSnippets": true,
+  "suggest.maxCompleteItemCount": 20,
+  "languageserver": {
+    "csharp-ls": {
+      "command": "csharp-ls",
+      "filetypes": ["cs"],
+      "rootPatterns": ["*.csproj", ".vim/", ".git/", ".hg/"]
+    }
+  },
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "typescript.tsx"
+  ],
+  "eslint.options": {
+    "filetypes": [
+      "javascript",
+      "typescript",
+      "typescriptreact",
+      "javascriptreact",
+      "typescript.tsx"
+    ]
+  },
+  "eslint.probe": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "javascriptreact",
+    "typescript.tsx"
+  ],
+  "diagnostic.errorSign": "•",
+  "diagnostic.warningSign": "•",
+  "diagnostic.infoSign": "•",
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/14.0.0/clangd_14.0.0/bin/clangd"
+}
